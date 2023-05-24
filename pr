@@ -1,0 +1,66 @@
+package com.example.proyecto2
+
+import android.widget.Button
+
+
+data class Property(val property1: String, val property2: String, val property3: String, val property4: String, val properties : List<String>)
+
+@Composable
+fun Principal (viewModel: AppViewModel, currentScreen: MutableState<String>) {
+    val property1 = remember {  mutableStateOf("") }
+    val property2 = remember {  mutableStateOf("") }
+    val property3 = remember {  mutableStateOf("") }
+    val property4 = remember { mutableStateOf("") }
+
+    Column(
+        modifier = Modifier
+    ){
+        TextField(
+            value = property1.value,
+            onValueChange = {property1.value = it },
+            label = { Text("Propiedad1") }
+        )
+        TextField(
+            value = property2.value,
+            onValueChange = {property1.value = it },
+            label = { Text("Propiedad2") }
+        )
+        TextField(
+            value = property3.value,
+            onValueChange = {property1.value = it },
+            label = { Text("Propiedad3") }
+        )
+        TextField(
+            value = property4.value,
+            onValueChange = {property1.value = it },
+            label = { Text("Propiedad4") }
+        )
+
+        Button(
+            onClick = {
+                val propertyList = listOf(property1.value, property2.value, property3.value, property4.value)
+                viewModel.createProperty(
+                    Property(
+                        property1 = property1.value,
+                        property2 = property2.value,
+                        property3 = property3.value,
+                        property4 = property4.value,
+                        properties = propertyList
+                    )
+                )
+                currentScreen.value = "data_list"
+            },
+            enabled = true
+        ){
+            Text("Guardar")
+        }
+
+        Button(
+            onClick = {currentScreen.value = "data_list"},
+            modifier = Modifier.padding(top = 16.dp)
+        ){
+            Text("Ver lista")
+        }
+    }
+}
+
